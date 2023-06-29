@@ -1,5 +1,6 @@
 import 'package:currency_converter/mainscreen.dart';
 import 'package:currency_converter/managments_provider.dart';
+import 'package:currency_converter/switch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Mainscreen(),
+      home: const ConnectivityWidget(),
     );
   }
 }

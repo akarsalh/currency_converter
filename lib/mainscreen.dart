@@ -15,13 +15,6 @@ class _MainscreenState extends State<Mainscreen> {
   ApiClient api = ApiClient();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCurrencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
@@ -40,15 +33,21 @@ class _MainscreenState extends State<Mainscreen> {
                 decoration: InputDecoration(
                     hintText: "Input value", border: InputBorder.none),
                 onChanged: (value) async {
-                  if (value.isEmpty) {
-                    value = "0";
-                  }
-                  context.read<Comp>().setRate(await api.getRate(
-                      context.read<Comp>().from, context.read<Comp>().to));
+                  if (context.read<Comp>().from.isNotEmpty &&
+                      context.read<Comp>().to.isNotEmpty &&
+                      context.read<Comp>().to != context.read<Comp>().from) {
+                    if (value.isEmpty) {
+                      value = "0";
+                    }
 
-                  String re = (context.read<Comp>().rate * double.parse(value))
-                      .toStringAsFixed(3);
-                  context.read<Comp>().setResult(re);
+                    context.read<Comp>().setRate(await api.getRate(
+                        context.read<Comp>().from, context.read<Comp>().to));
+
+                    String re =
+                        (context.read<Comp>().rate * double.parse(value))
+                            .toStringAsFixed(3);
+                    context.read<Comp>().setResult(re);
+                  }
                 }),
           ),
           SizedBox(
@@ -92,18 +91,12 @@ class _MainscreenState extends State<Mainscreen> {
                   "result :",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                Text(context.read<Comp>().result)
+                Text(context.watch<Comp>().result)
               ],
             ),
           )
         ],
       ),
     );
-  }
-
-  getCurrencies() async {
-    List<String> list = await api.getCurrencies();
-
-    context.read<Comp>().setCurrencies(list);
   }
 }

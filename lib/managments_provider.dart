@@ -29,7 +29,7 @@ class Comp extends ChangeNotifier {
 
   void setCurrencies(List<String> val) {
     currencies = val;
-    notifyListeners();
+    //notifyListeners();
   }
 
   void setRate(double val) {
